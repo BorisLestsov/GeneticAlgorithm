@@ -97,9 +97,8 @@ void Environment::perform_crossover() {
             uint j = rand() * pop_size / RAND_MAX;
 
             Indiv tmp = parents_pool[i];
-            tmp = Indiv(parents_pool[i], parents_pool[j], pos);
-            parents_pool[j] = Indiv(parents_pool[j], parents_pool[i], pos);
-            parents_pool[i] = tmp;
+            parents_pool[i] = Indiv(parents_pool[i], parents_pool[j], pos);
+            parents_pool[j] = Indiv(parents_pool[j], tmp, pos);
         }
     }
 }

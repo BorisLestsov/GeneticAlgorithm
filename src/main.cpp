@@ -5,8 +5,8 @@
 
 using namespace std;
 
-#define MAX_GEN 10
-#define POP_SIZE 500
+#define MAX_GEN 50
+#define POP_SIZE 100
 #define SEED 0
 
 int main(int argc, char* argv[]){
