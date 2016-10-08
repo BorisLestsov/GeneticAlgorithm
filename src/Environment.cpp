@@ -2,20 +2,23 @@
 #include "Environment.h"
 
 Environment::Environment(uint knapsack_size, const vector<uint> &values, const vector<uint> &weights, uint seed):
-        seed(seed),
         knapsack_max_weigth(knapsack_size),
         items_value(values),
         items_weight(weights),
         chromosome_size((uint) values.size()),
         generation(0)
 {
+    if (seed == 0){
+        seed = (uint) time(0);
+        srand(seed);
+    }
     if (items_value.size() != items_weight.size())
         throw Exception("Wrong size of values and weights vectors");
 }
 
 
 
-void Environment::start_selection(uint max_gen, uint max_indivs) {
+void Environment::start(uint max_gen, uint max_indivs) {
     uint i;
     pop_size = max_indivs;
     indivs = vector<Indiv>(pop_size);
@@ -29,6 +32,7 @@ void Environment::start_selection(uint max_gen, uint max_indivs) {
         perform_selection();
         perform_crossover();
         perform_mutation();
+        indivs = parents_pool;
     }
 }
 
@@ -47,41 +51,6 @@ void Environment::perform_selection() {
         parents_pool.push_back(indivs[roulette_select()]);
     }
     indivs = parents_pool;
-}
-
-uint Environment::roulette_select() {
-    ulong r = rand() * (tot_fit/RAND_MAX);
-    uint i;
-    ulong tmp = tot_fit;
-    for (i = 0; i < pop_size; ++i){
-        tmp -= indivs[i].getFitness();
-        if (tmp <= 0)
-            return i;
-    }
-    throw Exception("Error in roulette select");
-}
-
-void Environment::perform_crossover() {
-
-}
-
-void Environment::perform_mutation() {
-
-}
-
-
-const Indiv& Environment::get_fittest() {
-    uint i, max_i = 0;
-    uint max_fitness = indivs[0].getFitness();
-
-    for (i = 1; i < pop_size; ++i){
-        if (indivs[i].getFitness() > max_fitness){
-            max_i = i;
-            max_fitness = indivs[i].getFitness();
-        }
-    }
-
-    return indivs[max_i];
 }
 
 
@@ -108,6 +77,50 @@ uint Environment::calculate_indiv_fitness(const Indiv& indiv) {
     else
         return tot_value;
 }
+
+uint Environment::roulette_select() {
+    long r = rand() * tot_fit/RAND_MAX;
+    uint i;
+    for (i = 0; i < pop_size; ++i){
+        r -= indivs[i].getFitness();
+        if (r <= 0)
+            return i;
+    }
+    throw Exception("Error in roulette select");
+}
+
+void Environment::perform_crossover() {
+//    for (uint i = 0; i < pop_size; ++i){
+//        if (rand() >= RAND_MAX * p_cross){
+//
+//        }
+//    }
+}
+
+void Environment::perform_mutation() {
+    uint i;
+    for (i = 0; i < pop_size; ++i)
+        if (rand() >= RAND_MAX * p_mut){
+            indivs[i].mutate();
+        }
+}
+
+
+const Indiv& Environment::get_fittest() {
+    uint i, max_i = 0;
+    uint max_fitness = indivs[0].getFitness();
+
+    for (i = 1; i < pop_size; ++i){
+        if (indivs[i].getFitness() > max_fitness){
+            max_i = i;
+            max_fitness = indivs[i].getFitness();
+        }
+    }
+
+    return indivs[max_i];
+}
+
+
 
 Chromosome Environment::generate_random_chromosome() {
     uint i;

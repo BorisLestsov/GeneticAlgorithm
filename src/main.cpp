@@ -2,13 +2,12 @@
 #include <fstream>
 
 #include "Environment.h"
-#include "Exception.h"
 
 using namespace std;
 
-#define MAX_GEN 5
-#define POP_SIZE 50
-#define SEED 1
+#define MAX_GEN 10
+#define POP_SIZE 100
+#define SEED 0
 
 int main(int argc, char* argv[]){
     if (argc != 2)
@@ -28,11 +27,12 @@ int main(int argc, char* argv[]){
         items_weight.push_back(weight);
     }
 
-    Environment MainEnv(n_items, items_value, items_weight, SEED);
+    Environment MainEnv(size, items_value, items_weight, SEED);
 
-    MainEnv.start_selection(MAX_GEN, POP_SIZE);
+    MainEnv.start(MAX_GEN, POP_SIZE);
 
-    cout << "Fittest: " << MainEnv.get_fittest().getFitness();
+    Indiv fittest = MainEnv.get_fittest();
+    cout << fittest << endl;
 
     return 0;
 }

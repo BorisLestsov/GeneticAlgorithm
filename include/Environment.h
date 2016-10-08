@@ -11,6 +11,9 @@ using namespace std;
 
 class Environment {
 
+    constexpr static const float p_mut = 0.05;
+    constexpr static const float p_cross = 0.85;
+
     uint seed;
     uint knapsack_max_weigth;
     const vector<uint> items_value;
@@ -38,7 +41,7 @@ class Environment {
 public:
     Environment(uint knapsack_size, const vector<uint>& values,  const vector<uint>& weights, uint seed = 0);
 
-    void start_selection(uint max_gen, uint max_indivs);
+    void start(uint max_gen, uint max_indivs);
     const Indiv& get_fittest();
 
 };

@@ -24,6 +24,10 @@ public:
 
     uint getFitness() const;
     void setFitness(uint fitness);
+
+    void mutate();
+
+    friend ostream& operator<<(ostream& o, const Indiv& indiv);
 };
 
 
