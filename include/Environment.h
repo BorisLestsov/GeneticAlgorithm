@@ -14,7 +14,7 @@ class Environment {
     constexpr static const float p_mut = 0.05;
     constexpr static const float p_cross = 0.85;
 
-    uint seed;
+    volatile uint seed;
     uint knapsack_max_weigth;
     const vector<uint> items_value;
     const vector<uint> items_weight;

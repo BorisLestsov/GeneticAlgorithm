@@ -19,8 +19,10 @@ public:
     Indiv(const vector<bool>& v);
     Indiv(const initializer_list<bool>& list);
     Indiv(const Indiv& indiv_p);
+    Indiv(const Indiv& par1, const Indiv& par2, uint pos);    // Crossover constructor, LOL
 
     bool get_gen(uint i) const;
+    uint size() const;
 
     uint getFitness() const;
     void setFitness(uint fitness);

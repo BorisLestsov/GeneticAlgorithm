@@ -34,6 +34,7 @@ void Environment::start(uint max_gen, uint max_indivs) {
         perform_mutation();
         indivs = parents_pool;
     }
+    calculate_fitness();
 }
 
 
@@ -90,17 +91,23 @@ uint Environment::roulette_select() {
 }
 
 void Environment::perform_crossover() {
-//    for (uint i = 0; i < pop_size; ++i){
-//        if (rand() >= RAND_MAX * p_cross){
-//
-//        }
-//    }
+    for (uint i = 0; i < pop_size; ++i){
+        if (rand() <= RAND_MAX * p_cross){
+            uint pos = rand() * (uint) parents_pool[i].size() / RAND_MAX;
+            uint j = rand() * pop_size / RAND_MAX;
+
+            Indiv tmp = parents_pool[i];
+            tmp = Indiv(parents_pool[i], parents_pool[j], pos);
+            parents_pool[j] = Indiv(parents_pool[j], parents_pool[i], pos);
+            parents_pool[i] = tmp;
+        }
+    }
 }
 
 void Environment::perform_mutation() {
     uint i;
     for (i = 0; i < pop_size; ++i)
-        if (rand() >= RAND_MAX * p_mut){
+        if (rand() <= RAND_MAX * p_mut){
             indivs[i].mutate();
         }
 }

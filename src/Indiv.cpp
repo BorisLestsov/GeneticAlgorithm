@@ -18,6 +18,14 @@ Indiv::Indiv(const Indiv& indiv_p):
     fitness(indiv_p.fitness)
 {}
 
+Indiv::Indiv(const Indiv& par1, const Indiv& par2, uint pos) {
+    Chromosome c(par1.chromosome);
+    for (uint i = pos; i < par1.chromosome.size(); ++i){
+        c[i] = par2.chromosome[i];
+    }
+    chromosome = c;
+}
+
 uint Indiv::getFitness() const {
     return fitness;
 }
@@ -40,4 +48,8 @@ ostream &operator<<(ostream &o, const Indiv& indiv) {
     for (uint i = 0; i < indiv.chromosome.size(); ++i)
         o << setw(2) << indiv.chromosome[i];
     return o;
+}
+
+uint Indiv::size() const {
+    return (uint) chromosome.size();
 }
