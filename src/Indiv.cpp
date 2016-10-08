@@ -15,10 +15,14 @@ Indiv::Indiv(const initializer_list<bool>& list):
 Indiv::Indiv(const Indiv& indiv_p)
 {}
 
-double Indiv::getFitness() const {
+uint Indiv::getFitness() const {
     return fitness;
 }
 
 void Indiv::setFitness(uint fitness) {
     Indiv::fitness = fitness;
+}
+
+bool Indiv::get_gen(uint i) const {
+    return chromosome[i];
 }

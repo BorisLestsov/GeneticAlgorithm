@@ -20,7 +20,9 @@ public:
     Indiv(const initializer_list<bool>& list);
     Indiv(const Indiv& indiv_p);
 
-    double getFitness() const;
+    bool get_gen(uint i) const;
+
+    uint getFitness() const;
     void setFitness(uint fitness);
 };
 
